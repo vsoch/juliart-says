@@ -4,6 +4,8 @@ This is a Juliart generator that creates a graphic with a snippet of wisdom
 generated via a Markov Model based on some [text corpus](corpus).
 We use version 0.0.13 of [juliart](https://www.github.com/vsoch/juliart).
 
+![images/hamlet-pacifico.png](images/hamlet-pacifico.png)
+
 ## Usage
 
 You can see the basic usage as follows:
@@ -146,7 +148,7 @@ to have a mode that generates one or two sentences and then prints it cleanly
 ## Acknowledgements
 
 I didn't want to derive new corpus, so thank you to the following repositories for
-being able to use your corupus:
+being able to use your corpus / share raw data:
 
  - [itsron717/markov-gen](https://github.com/itsron717/markov-gen)
 
