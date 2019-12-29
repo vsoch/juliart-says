@@ -64,7 +64,7 @@ def get_parser():
         help="choice of font (defaults to open sans)",
         type=str,
         choices=["OpenSans-Regular", "Pacifico-Regular"],
-        default="OpenSans-Regular",
+        default="Pacifico-Regular",
     )
 
     generate.add_argument(
@@ -156,7 +156,7 @@ def get_parser():
     generate.add_argument(
         "--corpus",
         dest="corpus",
-        choices=["trump", "hamlet", "dr_seuss", "ts_eliot"],
+        choices=["trump", "hamlet", "dr_seuss", "ts_eliot", "the_office"],
         help="the corpus to use to generate text",
         type=str,
         default="dr_seuss",
@@ -165,7 +165,7 @@ def get_parser():
     generate.add_argument(
         "--custom-corpus",
         dest="custom_corpus",
-        help="A custom corpus file, ending in .txt, placed in corpus folder",
+        help="A custom corpus file, full path",
         type=str,
         default=None,
     )
@@ -223,7 +223,11 @@ def main():
     if args.command == "generate":
 
         # Determine if we have a corpus or custom corpus
-        corpus = args.custom_corpus or args.corpus
+        corpus = args.corpus
+        if args.custom_corpus:
+            if os.path.exists(args.custom_corpus):
+                corpus = args.custom_corpus
+
         text = generate_text(corpus=corpus, use_model=not args.no_model, size=args.size)
 
         juliaset = JuliaSet(
@@ -267,8 +271,9 @@ def generate_text(corpus, use_model=True, size=100):
        use_model: boolean. Choose an actual sentence or generate one.
        size: The number of words to generate (only for a model).
     """
-    # Get the corpus file, if it exists
-    corpus = get_corpus(corpus)
+    # Get the corpus file, if not provided a full path
+    if not os.path.exists(corpus):
+        corpus = get_corpus(corpus)
 
     if use_model:
         return generate_words_markov(corpus, size=size)

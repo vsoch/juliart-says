@@ -56,7 +56,7 @@ optional arguments:
   --rgb RGB             a specific rbg color, in format R,G,B
   --theme {christmas,easter,fall,random,halloween,hanukkah,spring,summer,thanksgiving,valentine,winter}
                         a theme to color the art (defaults to random colors)
-  --corpus {trump,hamlet,dr_seuss,ts_eliot}
+  --corpus {trump,hamlet,dr_seuss,ts_eliot,office}
                         the corpus to use to generate text
   --custom-corpus CUSTOM_CORPUS
                         A custom corpus file, ending in .txt, placed in corpus
@@ -107,16 +107,21 @@ You can select any of the corpus provided in the corpus folder:
 ./juliasays.py generate --corpus trump --outfile images/trump.png
 ./juliasays.py generate --corpus ts_eliot --outfile images/ts_eliot.png
 ./juliasays.py generate --corpus hamlet --outfile images/hamlet.png
+./juliasays.py generate --corpus the_office --outfile images/office.png
 ```
 
-or specify your own custom corpus file (should also be located in the corpus folder).
-The file should end in .txt, but you don't need to specify that. For example,
-if we added `corpus/mywords.txt` we would call:
-
+or specify the full path to your own custom corpus file.
+For example, I've generated lines for each of the major office characters under [corpus/office](corpus/office)
+And given a file `corpus/office/michael.txt` could generate a graphic like:
 
 ```bash
-./juliasays.py generate --custom-corpus mywords
+./juliasays.py generate --custom-corpus corpus/office/michael.txt --outfile images/michael-office.png
 ```
+
+![images/micheal-office.png](images/michael-office.png)
+
+Take a look at the [corpus/office](corpus/office) folder for all the different
+characters. I've also provided the raw data files used to generate them.
 
 ### Raw Text
 
@@ -129,13 +134,13 @@ you can do that too:
 
 ### Font
 
-You can change the font to Pacifico:
+You can change the font to OpenSans-Regular:
 
 ```bash
-./juliasays.py generate --font Pacifico-Regular --outfile images/pacifico.png
+./juliasays.py generate --font OpenSans-Regular --outfile images/opensans.png
 ```
 
-![images/pacifico.png](images/pacifico.png)
+![images/opensans.png](images/opensans.png)
 
 
 ## Needs Love
