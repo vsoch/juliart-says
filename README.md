@@ -94,10 +94,82 @@ made up of words as tokens) to generate a custom length of text.
 ```bash
 ./juliasays.py generate --outfile images/defaults.png
 ```
-
 ![images/defaults.png](images/defaults.png)
 
 The default corpus is Dr. Seuss, one that I generated a while back.
+
+#### Markov What?
+
+I really love this model because it's so simple to work with! We basically generate
+a lookup of words (tokens), where each index has a list of all the other words that
+were found to follow it. For example:
+
+```
+blue: [one, two, three, four]
+```
+
+Would say that we parsed the text and found that the tokens "one" "two" "three" and "four"
+followed the word "blue." In practice we can build this lookup fairly easily
+from a raw text corpus:
+
+```python
+def generate_word_grams(text):
+    """Generate a lookup of words mapped to the next occurring word, and
+       we can use this to generate new text based on occurrence.
+    """
+    words = text.split()
+    wordgrams = {}
+
+    # Add each word to the lookup
+    for i in range(len(words) - 1):
+
+        if words[i] not in wordgrams:
+            wordgrams[words[i]] = []
+
+        # Each entry should have the next occurring word
+        wordgrams[words[i]].append(words[i + 1])
+
+    return wordgrams
+```
+
+I removed some of the subtle details, like creating an empty list potentially for
+the last word, and making the word lowercase to streamline the lookup.
+
+Once we have this lookup we can generate some new sentence / text of a particular
+length simply by starting with a word, and the randomly selecting some following 
+word from the list (and continuing in that fashion until we have the total
+number that we want).
+
+```python
+def generate_words_markov(corpus, size=10):
+    """Generate a word lookup based on unique words, and for each
+       have the values be the list of following words to choose from.
+       Randomly select a next word in this fashion.
+    """
+    # Load filename into list of words
+    text = load_corpus(corpus)
+
+    # Generate words lookup
+    grams = generate_word_grams(text)
+
+    # Now generate the sentence of a particular size
+    current = random.choice(text.split())
+    result = current
+    for _ in range(size):
+
+        # Always look up entirely lowercase
+        possibilities = grams[current.lower()]
+        if len(possibilities) == 0:
+            break
+        next_word = random.choice(possibilities)
+        result = "%s %s" % (result, next_word)
+        current = next_word
+
+    return result
+```
+
+I also remove some detail work like capitalizing the first and ending with
+a period to simplify the example. You can see the full code in [juliasays.py](juliasays.py).
 
 ### Corpus
 
