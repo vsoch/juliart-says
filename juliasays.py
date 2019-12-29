@@ -382,7 +382,7 @@ def load_corpus(filename):
 
     # Read and get rid of newlines
     with open(filename, "r") as filey:
-        text = filey.read().replace("\n", "")
+        text = filey.read().replace("\n", " ")
     return text
 
 
