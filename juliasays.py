@@ -214,13 +214,13 @@ def main():
     # Will exit with subcommand help if doesn't parse
     args, extra = parser.parse_known_args()
 
-    # If the provided font doesn't end in ttf
-    font = args.font
-    if not args.font.endswith(".ttf"):
-        font = "%s.ttf" % (font)
-
     # Initialize the JuliaSet
     if args.command == "generate":
+
+        # If the provided font doesn't end in ttf
+        font = args.font
+        if not args.font.endswith(".ttf"):
+            font = "%s.ttf" % (font)
 
         # Determine if we have a corpus or custom corpus
         corpus = args.corpus
