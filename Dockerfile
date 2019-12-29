@@ -4,6 +4,6 @@ FROM continuumio/miniconda3
 
 WORKDIR /code
 COPY . /code
-RUN pip install imageio && 
+RUN pip install imageio &&  \
     pip install juliart>=0.0.14
 ENTRYPOINT ["python", "/code/juliasays.py"]
